@@ -14,17 +14,19 @@ namespace EdiyaGameWebsocket.Data.Repository
 
         public async Task<Player> AddOrUpdatePlayerAsync(Player player)
         {
-            var old = await _playerRepository.FindAsync(p=>p.Id == player.Id);
-            if (old != null)
-            {
-                old.IsOnline = player.IsOnline;
-                return await _playerRepository.UpdateAsync(old, true);
-            }
-            else
-                return await _playerRepository.InsertAsync(player,true);
+            return await _playerRepository.UpdateAsync(player, true);
+
+            //var old = await _playerRepository.FindAsync(p=>p.Id == player.Id);
+            //if (old != null)
+            //{
+            //    old.IsOnline = player.IsOnline;
+            //    return await _playerRepository.UpdateAsync(old, true);
+            //}
+            //else
+            //    return await _playerRepository.InsertAsync(player,true);
         }
 
-        public async Task<List<Player>> GetAllPlayersAsync()
+        public async Task<List<Player>> GetAllPlayersByGameAsync(int gameId)
         {
             return await _playerRepository.GetListAsync();
         }

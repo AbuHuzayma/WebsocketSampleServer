@@ -300,7 +300,7 @@ public class EdiyaGameWebsocketModule : AbpModule
     {
         context.Services.AddDataProtection().SetApplicationName("EdiyaGameWebsocket");
 
-        context.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+        context.Services.AddTransient<IPlayerRepository, PlayerRepository>();
     }
 
     private void ConfigureEfCore(ServiceConfigurationContext context)
@@ -321,7 +321,10 @@ public class EdiyaGameWebsocketModule : AbpModule
                 configurationContext.UseSqlServer();
             });
         });
-
+        Configure<AbpUnitOfWorkDefaultOptions>(options =>
+        {
+            options.TransactionBehavior = UnitOfWorkTransactionBehavior.Disabled;
+        });
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
